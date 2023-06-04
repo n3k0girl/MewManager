@@ -1,6 +1,6 @@
 #![allow(non_snake_case)]
-
+mod commands;
 
 fn main() {
-    println!("Hello, world!");
+    commands::commandsRun();
 }
