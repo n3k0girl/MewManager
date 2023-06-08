@@ -1,5 +1,6 @@
 mod install;
 mod remove;
+mod checkfmt;
 
 use clap::{Arg, Command};
 
@@ -19,6 +20,14 @@ pub fn commandsRun() {
         .get_matches();
 
     // Context of commands
-    install::main(matches.get_one::<String>("install").cloned());
-    remove::main(matches.get_one::<String>("remove").cloned());
+    let install_pkg: String = checkfmt::checkFormat(matches.get_one::<String>("install").cloned());
+    let remove_pkg: String = checkfmt::checkFormat(matches.get_one::<String>("remove").cloned());
+    
+    if install_pkg != "NoPKG" {
+        install::main(install_pkg);
+    }
+
+    if remove_pkg != "NoPKG" {
+        remove::main(remove_pkg);
+    }
 }

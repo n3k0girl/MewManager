@@ -1,13 +1,14 @@
+use reqwest;
 
-pub fn main(pkg_name: Option<String>) {
-    let pkg: String = checkFormat(pkg_name);
-    println!("{}", pkg);
+pub fn main(pkg_name: String) {
+    println!("{}", pkg_name);
+    checkOnline();
 }
 
-fn checkFormat(pkg_name: Option<String>) -> String {
-    if pkg_name.is_some() {
-        return pkg_name.expect("We can't convert your package name.").to_string();
-    } else {
-        "NoPKG".to_string()
-    }
+fn checkOnline() {
+    let resp = match reqwest::blocking::get("https://raw.githubusercontent.com/n3k0girl/MewMirror/main/mirror.mew") {
+        Ok(resp) => resp.text().unwrap(),
+        Err(err) => panic!("Error: {}", err)
+    };
+   println!("{}", resp)
 }
